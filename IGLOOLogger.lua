@@ -9,26 +9,9 @@
 	Project			:	IGLOO
 	Author			:	Yannis Beaux (Kranck) [yannis.beaux@dissidentstudio.fr]
 	Date			:	26 / 10/ 2022
-	Description		:	Base class to run a game in the application
+	Description		:	Utility to simplify logging in the project
 --]]
 
-GameRunner = {}
-
--- Instantiate a new game runner
-function GameRunner:New(object)
-	object = object or {}
-	setmetatable(object, self)
-	self.__index = self
-	
-	self.m_handle = nil
-	
-	return object
-end
-
-
-function GameRunner:Launch(pathToExecutable)
-	
-	m_handle = io.popen(pathToExecutable)
-	local result = handle:read("*a")
-	
+function IGLOOLogInfo(message)
+	print("[IGLOO][Info] : " .. message)
 end

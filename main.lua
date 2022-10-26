@@ -1,15 +1,37 @@
+--[[
+	 ____  _         _   _         _      _____ _         _ _
+	|    \|_|___ ___|_|_| |___ ___| |_   |   __| |_ _ _ _| |_|___
+	|  |  | |_ -|_ -| | . | -_|   |  _|  |__   |  _| | | . | | . |
+	|____/|_|___|___|_|___|___|_|_|_|    |_____|_| |___|___|_|___|
 
+	This project is under the GNU GPLv3 license. Please refer to the LICENSE file for more informations
+
+	Project			:	IGLOO
+	Author			:	Yannis Beaux (Kranck) [yannis.beaux@dissidentstudio.fr]
+	Date			:	26 / 10/ 2022
+	Description		:	Main entry point for the IGLOO application
+--]]
+
+-- Require all IGLOO constants
+require "IGLOOConstants"
+
+-- Require ImGUI
 require "imgui"
-require "GameRunner"
 
-G_LauncherConfig = require "config"
+-- TODO
+--require "GameRunner"
+
 G_DisplayDebugMenu = false
 
+
 function love.load()
+	
+	-- Enable ZeroBrane Löve2D debug
 	if arg[#arg] == "-debug" then require("mobdebug").start() end
 	
-	img1 = love.graphics.newImage("img_1.png")
-	img2 = love.graphics.newImage("img_2.png")
+	
+	-- Check if the current folder has a config
+	configFileInfos = love.filesystem.getInfo(G_IGLOOConfigFilename)
 	
 	love.window.setFullscreen(true)
 end
@@ -40,8 +62,8 @@ function love.draw()
 						local command = '"' .. wd .. "/" .. value.Folder .. "/" .. value.Executable .. '"'
 						print("Launching : " .. command)
 						
-						local gr = GameRunner:New()
-						gr:Launch(command)
+--						local gr = GameRunner:New()
+--						gr:Launch(command)
 						
 					end
 				end
@@ -62,14 +84,14 @@ function love.draw()
 	imgui.ShowDemoWindow(true)
 	
 	if imgui.BeginMainMenuBar() then
-        if imgui.BeginMenu("File") then
-            imgui.MenuItem("Test")
-            imgui.EndMenu()
-        end
-        imgui.EndMainMenuBar()
-    end
+		if imgui.BeginMenu("File") then
+			imgui.MenuItem("Test")
+			imgui.EndMenu()
+		end
+		imgui.EndMainMenuBar()
+	end
 	
-	local mouseX, mouseY = love.mouse.getPosition()
+	--[[local mouseX, mouseY = love.mouse.getPosition()
 	
 	if mouseX > 400 then
 		love.graphics.setColor(0.5, 0.5, 0.5)
@@ -84,7 +106,7 @@ function love.draw()
 	else 
 		love.graphics.setColor(1, 1, 1)
 	end
-	love.graphics.draw(img2, 400, 0, 0, 0.5, 0.5)
+	love.graphics.draw(img2, 400, 0, 0, 0.5, 0.5)--]]
 	
 	--
 	-- Render IMGUI
@@ -95,10 +117,10 @@ function love.draw()
 end
 
 function love.textinput(t)
-    imgui.TextInput(t)
-    if not imgui.GetWantCaptureKeyboard() then
-        -- Pass event to the game
-    end
+	imgui.TextInput(t)
+	if not imgui.GetWantCaptureKeyboard() then
+		-- Pass event to the game
+	end
 end
 
 function love.keypressed(key)
@@ -107,44 +129,44 @@ function love.keypressed(key)
 		G_DisplayDebugMenu = not G_DisplayDebugMenu
 	end
 	
-    imgui.KeyPressed(key)
-    if not imgui.GetWantCaptureKeyboard() then
-        -- Pass event to the game
-    end
+	imgui.KeyPressed(key)
+	if not imgui.GetWantCaptureKeyboard() then
+		-- Pass event to the game
+	end
 end
 
 function love.keyreleased(key)
-    imgui.KeyReleased(key)
-    if not imgui.GetWantCaptureKeyboard() then
-        -- Pass event to the game
-    end
+	imgui.KeyReleased(key)
+	if not imgui.GetWantCaptureKeyboard() then
+		-- Pass event to the game
+	end
 end
 
 function love.mousemoved(x, y)
-    imgui.MouseMoved(x, y)
-    if not imgui.GetWantCaptureMouse() then
-        -- Pass event to the game
-    end
+	imgui.MouseMoved(x, y)
+	if not imgui.GetWantCaptureMouse() then
+		-- Pass event to the game
+	end
 end
 
 function love.mousepressed(x, y, button)
-    imgui.MousePressed(button)
-    if not imgui.GetWantCaptureMouse() then
-        -- Pass event to the game
-    end
+	imgui.MousePressed(button)
+	if not imgui.GetWantCaptureMouse() then
+		-- Pass event to the game
+	end
 end
 
 function love.mousereleased(x, y, button)
-    imgui.MouseReleased(button)
-    if not imgui.GetWantCaptureMouse() then
-        -- Pass event to the game
-    end
+	imgui.MouseReleased(button)
+	if not imgui.GetWantCaptureMouse() then
+		-- Pass event to the game
+	end
 end
 
 function love.wheelmoved(x, y)
-    imgui.WheelMoved(y)
-    if not imgui.GetWantCaptureMouse() then
-        -- Pass event to the game
-    end
+	imgui.WheelMoved(y)
+	if not imgui.GetWantCaptureMouse() then
+		-- Pass event to the game
+	end
 end
 
