@@ -15,11 +15,16 @@
 GameRunner = {}
 
 -- Instantiate a new game runner
-function GameRunner:New(object)
-	object = object or {}
+function GameRunner:New()
+	
+	-- Create the class instance
+	local object = {}
+	
+	-- Set metatable for this object 
 	setmetatable(object, self)
 	self.__index = self
 	
+	-- Variables
 	self.m_handle = nil
 	
 	return object

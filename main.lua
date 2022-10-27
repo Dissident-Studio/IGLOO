@@ -12,8 +12,13 @@
 	Description		:	Main entry point for the IGLOO application
 --]]
 
+-- TODO: Custom error handler : http://www.love2d.org/wiki/love.errorhandler
+
 -- Require all IGLOO constants
 require "IGLOOConstants"
+
+-- Require the IGLOO logger
+require "IGLOOLogger"
 
 -- Require ImGUI
 require "imgui"
@@ -22,6 +27,7 @@ require "imgui"
 --require "GameRunner"
 
 G_DisplayDebugMenu = false
+G_CurrentConfiguration = nil	-- The configuration of this application instance (loaded when the game loads)
 
 
 function love.load()
@@ -29,9 +35,23 @@ function love.load()
 	-- Enable ZeroBrane Löve2D debug
 	if arg[#arg] == "-debug" then require("mobdebug").start() end
 	
-	
 	-- Check if the current folder has a config
 	configFileInfos = love.filesystem.getInfo(G_IGLOOConfigFilename)
+	if nil == configFileInfos then
+		IGLOO_LOG_ERROR("No configuration found ! Ensure you have a " .. G_IGLOOConfigFilename .. " in your folder")
+		return
+	end
+	
+	-- Load the config file
+	configFileChunk = love.filesystem.load(G_IGLOOConfigFilename)
+	
+	-- Now execute the loading chunk safely by using pcall
+	local chunkExecuteResult
+	chunkExecuteResult, G_CurrentConfiguration = pcall(configFileChunk)
+	if not chunkExecuteResult then
+		IGLOO_LOG_ERROR("Failed executing config file : " .. G_CurrentConfiguration)
+		return
+	end
 	
 	love.window.setFullscreen(true)
 end
@@ -170,3 +190,6 @@ function love.wheelmoved(x, y)
 	end
 end
 
+function love.gamepadpressed(joystick, button)
+	
+end

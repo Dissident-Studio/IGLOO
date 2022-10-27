@@ -13,4 +13,5 @@
 --]]
 -- Note : Temporary for now, in the end it should be some kind of singleton
 
-G_IGLOOConfigFilename = "igloo-config.lua"
+-- TODO: Improve how projects are loaded
+G_IGLOOConfigFilename = "sample/igloo-config.lua"
